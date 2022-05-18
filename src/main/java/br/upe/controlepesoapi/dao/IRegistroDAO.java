@@ -1,5 +1,0 @@
-package br.upe.controlepesoapi.dao;
-
-public class IRegistroDAO {
-
-}
