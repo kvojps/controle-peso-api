@@ -10,7 +10,7 @@ public interface IUsuarioServico {
 	
 	Usuario incluir(Usuario usuario);
 	
-	Usuario alterar(Usuario usuario);
+	Usuario alterar(Usuario usuario, Usuario usuarioEditado);
 	
-	void excluir(Usuario usuario);
+	void excluir(Long id);
 }
