@@ -39,10 +39,8 @@ public class UsuarioServico implements IUsuarioServico {
 	}
 
 	@Override
-	public Usuario alterar(Usuario usuario, int altura, int pesoDesejado) {
+	public Usuario alterar(Usuario usuario) {
 		validacao.validarAlteracaoUsuario(usuario);
-		usuario.setAltura(altura);
-		usuario.setPesoDesejado(pesoDesejado);
 		return usuarioDao.save(usuario);
 	}
 
