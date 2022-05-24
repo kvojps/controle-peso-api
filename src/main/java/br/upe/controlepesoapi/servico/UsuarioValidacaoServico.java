@@ -9,18 +9,63 @@ import javax.validation.Validator;
 import org.springframework.util.StringUtils;
 
 import br.upe.controlepesoapi.dao.IUsuarioDao;
+import br.upe.controlepesoapi.excecao.ControlePesoException;
+import br.upe.controlepesoapi.excecao.NaoEncontradoException;
 import br.upe.controlepesoapi.modelo.Usuario;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class UsuarioValidacaoServico {
 	private Validator validator;
 	private IUsuarioDao usuarioDao;
-	
+
 	public UsuarioValidacaoServico() {
 		this.validator = Validation.buildDefaultValidatorFactory().getValidator();
 	}
-	
+
+	public void validarInclusaoUsuario(Usuario usuario) {
+		validarUsuario(usuario);
+
+		Optional<Usuario> existente = usuarioDao.findByEmailIgnoreCase(usuario.getEmail());
+
+		if (existente.isPresent()) {
+			throw new ControlePesoException(
+					"Ocorreu um erro ao alterar o usuário: já existe usuário cadastrado com esse e-mail: "
+							+ usuario.getEmail());
+		}
+	}
+
+	public void validarAlteracaoUsuario(Usuario usuario) {
+		validarUsuario(usuario);
+
+		if (usuario.getId() == 0L) {
+			throw new ControlePesoException("Ocorreu um erro ao alterar o usuário: informe o identificador");
+		}
+
+		Optional<Usuario> anterior = usuarioDao.findById(usuario.getId());
+
+		if (!anterior.isPresent()) {
+			throw new NaoEncontradoException("Ocorreu um erro ao alterar o usuário : usuário não encontrado");
+		}
+
+		Optional<Usuario> usuarioExistente = usuarioDao.findByEmailIgnoreCase(usuario.getEmail());
+
+		if (usuarioExistente.isPresent()) {
+			throw new ControlePesoException(
+					"Ocorreu um erro ao alterar o usuário: já existe usuário cadastrado com esse e-mail: "
+							+ usuario.getEmail());
+		}
+	}
+
+	public void validarExclusaoUsuario(Long id) {
+		if (id == null) {
+			throw new ControlePesoException("Ocorreu um erro ao excluir usuário: informe o identificador");
+		}
+
+		if (!usuarioDao.existsById(id)) {
+			throw new NaoEncontradoException("Ocorreu um erro ao excluir usuário: Usuário não encontrado");
+		}
+	}
+
 	public String obterViolacoes(Usuario usuario) {
 		String mensagem = null;
 
@@ -35,55 +80,11 @@ public class UsuarioValidacaoServico {
 		return mensagem;
 	}
 
-	public Boolean validarInclusaoUsuario(Usuario usuario) {
+	public void validarUsuario(Usuario usuario) {
 		String erros = this.obterViolacoes(usuario);
 
 		if (StringUtils.hasText(erros)) {
-			log.error("Erro ao incluir usuário");
-			return false;
+			throw new ControlePesoException("Ocorreu um erro ao incluir usuário: " + erros);
 		}
-
-		Optional<Usuario> existente = usuarioDao.findByEmailIgnoreCase(usuario.getEmail());
-
-		if (existente.isPresent()) {
-			log.error("Usuário já cadastrado");
-			return false;
-		}
-
-		return true;
-	}
-
-	public Boolean validarAlteracaoUsuario(Usuario usuario) {
-		String erros = this.obterViolacoes(usuario);
-
-		if (StringUtils.hasText(erros)) {
-			log.error("Erro ao alterar usuário");
-			return false;
-		}
-
-		Optional<Usuario> anterior = usuarioDao.findById(usuario.getId());
-
-		if (!anterior.isPresent()) {
-			log.error("Usuário não existe");
-			return false;
-		}
-
-		Optional<Usuario> usuarioExistente = usuarioDao.findByEmailIgnoreCase(usuario.getEmail());
-
-		if (usuarioExistente.isPresent()) {
-			log.error("erro ao editar usuário");
-			return false;
-		}
-
-		return true;
-	}
-
-	public Boolean validarExclusaoUsuario(Long id) {
-		if (!usuarioDao.existsById(id)) {
-			log.error("Usuário não existe");
-			return false;
-		}
-		
-		return true;
 	}
 }

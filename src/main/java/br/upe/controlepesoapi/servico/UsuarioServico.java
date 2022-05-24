@@ -34,31 +34,26 @@ public class UsuarioServico implements IUsuarioServico {
 
 	@Override
 	public Usuario incluir(Usuario usuario) {
-
-		if (validacao.validarInclusaoUsuario(usuario) == false) {
-			return null;
-		}
+		validacao.validarInclusaoUsuario(usuario);
 		return usuarioDao.save(usuario);
 	}
 
 	@Override
-	public Usuario alterar(Usuario usuario, Usuario usuarioEditado) {
-		if (validacao.validarAlteracaoUsuario(usuario) == false) {
-			return null;
-		}
-		return usuarioDao.save(usuarioEditado);
+	public Usuario alterar(Usuario usuario, int altura, int pesoDesejado) {
+		validacao.validarAlteracaoUsuario(usuario);
+		usuario.setAltura(altura);
+		usuario.setPesoDesejado(pesoDesejado);
+		return usuarioDao.save(usuario);
 	}
 
 	@Override
 	public void excluir(Long id) {
-		if (validacao.validarExclusaoUsuario(id) == false) {
-			return;
-		}
+		validacao.validarExclusaoUsuario(id);
 		usuarioDao.deleteById(id);
 	}
 
 	public void adicionarPesoAoUsuario(String email, RegistroPeso peso) {
-		//Falta a validação.
+		//Falta a validação
 		Optional<Usuario> usuario = usuarioDao.findByEmailIgnoreCase(email);
 		peso.setUsuario(usuario.get());
 		peso.setData(LocalDateTime.now());
