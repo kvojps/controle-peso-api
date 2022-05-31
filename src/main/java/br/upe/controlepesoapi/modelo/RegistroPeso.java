@@ -27,7 +27,7 @@ public class RegistroPeso {
 	@NotEmpty(message = "Informe o peso")
 	private int peso;
 	
-	@NotEmpty(message = "Informe a data")
+//	@NotEmpty(message = "Informe a data")
 	private LocalDateTime data;
 	
     @NotNull(message = "Informe o usuario associado a senha")

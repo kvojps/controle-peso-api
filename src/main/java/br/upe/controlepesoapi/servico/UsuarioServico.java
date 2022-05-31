@@ -58,4 +58,10 @@ public class UsuarioServico implements IUsuarioServico {
 		registroDao.save(peso);
 		usuario.get().getRegistrosPeso().add(peso);
 	}
+	
+	public Usuario getUsuarioByEmail(String email) {
+		Optional<Usuario> usuario = usuarioRepositorio.findByEmailIgnoreCase(email);
+		validacao.obterViolacoes(usuario.get());
+		return usuario.get();
+	}
 }
