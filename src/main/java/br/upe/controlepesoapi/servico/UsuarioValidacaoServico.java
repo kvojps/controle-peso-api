@@ -8,15 +8,15 @@ import javax.validation.Validator;
 
 import org.springframework.util.StringUtils;
 
-import br.upe.controlepesoapi.dao.IUsuarioDao;
 import br.upe.controlepesoapi.excecao.ControlePesoException;
 import br.upe.controlepesoapi.excecao.NaoEncontradoException;
 import br.upe.controlepesoapi.modelo.Usuario;
+import br.upe.controlepesoapi.repositorio.IUsuarioRepositorio;
 import lombok.extern.slf4j.Slf4j;
 
 public class UsuarioValidacaoServico {
 	private Validator validator;
-	private IUsuarioDao usuarioDao;
+	private IUsuarioRepositorio usuarioRepositorio;
 
 	public UsuarioValidacaoServico() {
 		this.validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -25,7 +25,7 @@ public class UsuarioValidacaoServico {
 	public void validarInclusaoUsuario(Usuario usuario) {
 		validarUsuario(usuario);
 
-		Optional<Usuario> existente = usuarioDao.findByEmailIgnoreCase(usuario.getEmail());
+		Optional<Usuario> existente = usuarioRepositorio.findByEmailIgnoreCase(usuario.getEmail());
 
 		if (existente.isPresent()) {
 			throw new ControlePesoException(
@@ -41,13 +41,13 @@ public class UsuarioValidacaoServico {
 			throw new ControlePesoException("Ocorreu um erro ao alterar o usuário: informe o identificador");
 		}
 
-		Optional<Usuario> anterior = usuarioDao.findById(usuario.getId());
+		Optional<Usuario> anterior = usuarioRepositorio.findById(usuario.getId());
 
 		if (!anterior.isPresent()) {
 			throw new NaoEncontradoException("Ocorreu um erro ao alterar o usuário : usuário não encontrado");
 		}
 
-		Optional<Usuario> usuarioExistente = usuarioDao.findByEmailIgnoreCase(usuario.getEmail());
+		Optional<Usuario> usuarioExistente = usuarioRepositorio.findByEmailIgnoreCase(usuario.getEmail());
 
 		if (usuarioExistente.isPresent()) {
 			throw new ControlePesoException(
@@ -61,7 +61,7 @@ public class UsuarioValidacaoServico {
 			throw new ControlePesoException("Ocorreu um erro ao excluir usuário: informe o identificador");
 		}
 
-		if (!usuarioDao.existsById(id)) {
+		if (!usuarioRepositorio.existsById(id)) {
 			throw new NaoEncontradoException("Ocorreu um erro ao excluir usuário: Usuário não encontrado");
 		}
 	}

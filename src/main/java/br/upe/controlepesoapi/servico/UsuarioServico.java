@@ -12,47 +12,47 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import br.upe.controlepesoapi.dao.IRegistroPesoDao;
-import br.upe.controlepesoapi.dao.IUsuarioDao;
 import br.upe.controlepesoapi.modelo.RegistroPeso;
 import br.upe.controlepesoapi.modelo.Usuario;
+import br.upe.controlepesoapi.repositorio.IRegistroPesoRepositorio;
+import br.upe.controlepesoapi.repositorio.IUsuarioRepositorio;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 public class UsuarioServico implements IUsuarioServico {
 
 	@Autowired
-	private IUsuarioDao usuarioDao;
+	private IUsuarioRepositorio usuarioRepositorio;
 	@Autowired
-	private IRegistroPesoDao registroDao;
+	private IRegistroPesoRepositorio registroDao;
 	private UsuarioValidacaoServico validacao;
 
 	@Override
 	public List<Usuario> listar() {
-		return (List<Usuario>) usuarioDao.findAll();
+		return (List<Usuario>) usuarioRepositorio.findAll();
 	}
 
 	@Override
 	public Usuario incluir(Usuario usuario) {
 		validacao.validarInclusaoUsuario(usuario);
-		return usuarioDao.save(usuario);
+		return usuarioRepositorio.save(usuario);
 	}
 
 	@Override
 	public Usuario alterar(Usuario usuario) {
 		validacao.validarAlteracaoUsuario(usuario);
-		return usuarioDao.save(usuario);
+		return usuarioRepositorio.save(usuario);
 	}
 
 	@Override
 	public void excluir(Long id) {
 		validacao.validarExclusaoUsuario(id);
-		usuarioDao.deleteById(id);
+		usuarioRepositorio.deleteById(id);
 	}
 
 	public void adicionarPesoAoUsuario(String email, RegistroPeso peso) {
 		//Falta a validação
-		Optional<Usuario> usuario = usuarioDao.findByEmailIgnoreCase(email);
+		Optional<Usuario> usuario = usuarioRepositorio.findByEmailIgnoreCase(email);
 		peso.setUsuario(usuario.get());
 		peso.setData(LocalDateTime.now());
 		registroDao.save(peso);
