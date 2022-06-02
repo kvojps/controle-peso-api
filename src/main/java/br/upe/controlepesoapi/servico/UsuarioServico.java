@@ -3,20 +3,14 @@ package br.upe.controlepesoapi.servico;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.validation.Validation;
-import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import br.upe.controlepesoapi.modelo.entidades.RegistroPeso;
 import br.upe.controlepesoapi.modelo.entidades.Usuario;
 import br.upe.controlepesoapi.repositorio.IRegistroPesoRepositorio;
 import br.upe.controlepesoapi.repositorio.IUsuarioRepositorio;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 public class UsuarioServico implements IUsuarioServico {
@@ -57,6 +51,11 @@ public class UsuarioServico implements IUsuarioServico {
 		peso.setData(LocalDateTime.now());
 		registroDao.save(peso);
 		usuario.get().getRegistrosPeso().add(peso);
+	}
+	
+	public int getPesoAtual(Usuario usuario) {
+		RegistroPeso registroAtual = registroDao.findByUsuario(usuario);
+		return registroAtual.getPeso();
 	}
 	
 	public Usuario getUsuarioByEmail(String email) {

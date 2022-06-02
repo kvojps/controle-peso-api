@@ -48,24 +48,28 @@ public class UsuarioControle {
 		return resposta;
 	}
 
+	//Não está funcionando
 	@PostMapping("/usuario/salvar")
 	public ResponseEntity<UsuarioDTO> salvarUsuario(@RequestBody UsuarioDTO usuario) {
 		Usuario registro = this.servicoUsuario.incluir(usuario.getUsuario());
 
 		return new ResponseEntity<UsuarioDTO>(getUsuarioDTO(registro), HttpStatus.CREATED);
 	}
-
+	
+	//Não está funcionando
 	@PutMapping("/usuario/{id}")
 	public ResponseEntity<Usuario> alterarUsuario(@RequestBody Usuario usuario) {
 		return ResponseEntity.ok().body(servicoUsuario.alterar(usuario));
 	}
 
+	//Não está funcionando
 	@DeleteMapping("/usuario/{id}")
 	public ResponseEntity<?> excluir(@Valid @PathVariable(value = "id") Long id) {
 		servicoUsuario.excluir(id);
 		return ResponseEntity.ok().build();
 	}
 
+	//Não está funcionando
 	public ResponseEntity<?> addPesoParaUsuario(@RequestBody PesoParaUsuarioForm form) {
 		servicoUsuario.adicionarPesoAoUsuario(form.getEmail(), form.getPeso());
 		return ResponseEntity.ok().build();
@@ -84,9 +88,6 @@ public class UsuarioControle {
 		return UsuarioDTO.builder().id(usuario.getId()).nome(usuario.getNome()).email(usuario.getEmail())
 				.altura(usuario.getAltura()).sexo(usuario.getSexo()).pesoDesejado(usuario.getPesoDesejado())
 				.registrosPeso(registrosPeso).build();
-
-//		return UsuarioDTO.builder().id(usuario.getId()).nome(usuario.getNome()).email(usuario.getEmail())
-//				.altura(usuario.getAltura()).sexo(usuario.getSexo()).pesoDesejado(usuario.getPesoDesejado()).build();
 	}
 }
 

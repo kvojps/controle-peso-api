@@ -41,10 +41,5 @@ public class Usuario {
 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<RegistroPeso> registrosPeso;
-	
-//	public int getPesoAtual() {
-//		RegistroPeso registroAtual = registrosPeso.get(registrosPeso.size() - 1);
-//		return registroAtual.getPeso();
-//	}
 
 }
