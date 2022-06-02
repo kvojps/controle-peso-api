@@ -2,7 +2,7 @@ package br.upe.controlepesoapi.servico;
 
 import java.util.List;
 
-import br.upe.controlepesoapi.modelo.Usuario;
+import br.upe.controlepesoapi.modelo.entidades.Usuario;
 
 
 public interface IUsuarioServico {

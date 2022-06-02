@@ -1,4 +1,4 @@
-package br.upe.controlepesoapi.modelo;
+package br.upe.controlepesoapi.modelo.entidades;
 
 import java.time.LocalDateTime;
 
@@ -12,10 +12,12 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,7 +29,7 @@ public class RegistroPeso {
 	@NotEmpty(message = "Informe o peso")
 	private int peso;
 	
-//	@NotEmpty(message = "Informe a data")
+	@NotEmpty(message = "Informe a data")
 	private LocalDateTime data;
 	
     @NotNull(message = "Informe o usuario associado a senha")

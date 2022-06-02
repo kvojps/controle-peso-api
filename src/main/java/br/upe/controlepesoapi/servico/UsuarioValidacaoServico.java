@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 
 import br.upe.controlepesoapi.excecao.ControlePesoException;
 import br.upe.controlepesoapi.excecao.NaoEncontradoException;
-import br.upe.controlepesoapi.modelo.Usuario;
+import br.upe.controlepesoapi.modelo.entidades.Usuario;
 import br.upe.controlepesoapi.repositorio.IUsuarioRepositorio;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package br.upe.controlepesoapi.modelo;
+package br.upe.controlepesoapi.modelo.entidades;
 
 import java.util.List;
 
@@ -12,10 +12,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,9 +42,9 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<RegistroPeso> registrosPeso;
 	
-	public int getPesoAtual() {
-		RegistroPeso registroAtual = registrosPeso.get(registrosPeso.size() - 1);
-		return registroAtual.getPeso();
-	}
+//	public int getPesoAtual() {
+//		RegistroPeso registroAtual = registrosPeso.get(registrosPeso.size() - 1);
+//		return registroAtual.getPeso();
+//	}
 
 }

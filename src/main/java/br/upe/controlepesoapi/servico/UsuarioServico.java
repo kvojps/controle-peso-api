@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import br.upe.controlepesoapi.modelo.RegistroPeso;
-import br.upe.controlepesoapi.modelo.Usuario;
+import br.upe.controlepesoapi.modelo.entidades.RegistroPeso;
+import br.upe.controlepesoapi.modelo.entidades.Usuario;
 import br.upe.controlepesoapi.repositorio.IRegistroPesoRepositorio;
 import br.upe.controlepesoapi.repositorio.IUsuarioRepositorio;
 import lombok.extern.slf4j.Slf4j;
