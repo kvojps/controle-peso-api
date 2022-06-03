@@ -6,11 +6,11 @@ import br.upe.controlepesoapi.modelo.entidades.Usuario;
 
 
 public interface IUsuarioServico {
-	List<Usuario> listar();
+	List<Usuario> listarUsuarios();
 	
-	Usuario incluir(Usuario usuario);
+	Usuario incluirUsuario(Usuario usuario);
 	
-	Usuario alterar(Usuario usuario);
+	Usuario alterarUsuario(Usuario usuario);
 	
-	void excluir(Long id);
+	void excluirUsuario(Long id);
 }

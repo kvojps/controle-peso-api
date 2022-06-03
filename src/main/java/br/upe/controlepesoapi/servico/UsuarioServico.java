@@ -27,22 +27,22 @@ public class UsuarioServico implements IUsuarioServico {
 	private IRegistroPesoRepositorio registroDao;
 
 	@Override
-	public List<Usuario> listar() {
+	public List<Usuario> listarUsuarios() {
 		return (List<Usuario>) usuarioRepositorio.findAll();
 	}
 
 	@Override
-	public Usuario incluir(Usuario usuario) {
+	public Usuario incluirUsuario(Usuario usuario) {
 		return usuarioRepositorio.save(usuario);
 	}
 
 	@Override
-	public Usuario alterar(Usuario usuario) {
+	public Usuario alterarUsuario(Usuario usuario) {
 		return usuarioRepositorio.save(usuario);
 	}
 
 	@Override
-	public void excluir(Long id) {
+	public void excluirUsuario(Long id) {
 		usuarioRepositorio.deleteById(id);
 	}
 

@@ -31,10 +31,10 @@ public class UsuarioControle {
 	private UsuarioServico servicoUsuario;
 
 	@GetMapping("/usuarios")
-	public ResponseEntity<?> listar() {
+	public ResponseEntity<?> listarUsuarios() {
 		ResponseEntity<?> resposta = null;
 
-		List<Usuario> usuarios = servicoUsuario.listar();
+		List<Usuario> usuarios = servicoUsuario.listarUsuarios();
 
 		if (usuarios != null && !usuarios.isEmpty()) {
 			List<UsuarioDTO> dtos = usuarios.stream().map(usuario -> getUsuarioDTO(usuario))
@@ -49,8 +49,8 @@ public class UsuarioControle {
 	}
 
 	@PostMapping("/usuario/salvar")
-	public ResponseEntity<UsuarioDTO> salvarUsuario(@RequestBody UsuarioDTO usuario) {
-		Usuario registro = this.servicoUsuario.incluir(usuario.getUsuario());
+	public ResponseEntity<UsuarioDTO> incluirUsuario(@RequestBody UsuarioDTO usuario) {
+		Usuario registro = this.servicoUsuario.incluirUsuario(usuario.getUsuario());
 
 		return new ResponseEntity<UsuarioDTO>(getUsuarioDTO(registro), HttpStatus.CREATED);
 	}
@@ -58,12 +58,12 @@ public class UsuarioControle {
 	//Não está funcionando
 	@PutMapping("/usuario/{id}")
 	public ResponseEntity<Usuario> alterarUsuario(@RequestBody Usuario usuario) {
-		return ResponseEntity.ok().body(servicoUsuario.alterar(usuario));
+		return ResponseEntity.ok().body(servicoUsuario.alterarUsuario(usuario));
 	}
 
 	@DeleteMapping("/usuario/{id}")
-	public ResponseEntity<?> excluir(@Valid @PathVariable(value = "id") Long id) {
-		servicoUsuario.excluir(id);
+	public ResponseEntity<?> excluirUsuario(@Valid @PathVariable(value = "id") Long id) {
+		servicoUsuario.excluirUsuario(id);
 		return ResponseEntity.ok().build();
 	}
 
