@@ -24,7 +24,7 @@ public class UsuarioServico implements IUsuarioServico {
 	@Autowired
 	private IUsuarioRepositorio usuarioRepositorio;
 	@Autowired
-	private IRegistroPesoRepositorio registroDao;
+	private IRegistroPesoRepositorio registroPesoRepositorio;
 
 	@Override
 	public List<Usuario> listarUsuarios() {
@@ -50,13 +50,12 @@ public class UsuarioServico implements IUsuarioServico {
 		Optional<Usuario> usuario = usuarioRepositorio.findByEmailIgnoreCase(email);
 		peso.setUsuario(usuario.get());
 		peso.setData(LocalDateTime.now());
-		registroDao.save(peso);
+		registroPesoRepositorio.save(peso);
 		usuario.get().getRegistrosPeso().add(peso);
 	}
 	
 	public int getPesoAtual(Usuario usuario) {
-		RegistroPeso registroAtual = registroDao.findByUsuario(usuario);
+		RegistroPeso registroAtual = registroPesoRepositorio.findByUsuario(usuario);
 		return registroAtual.getPeso();
 	}
-	
 }
