@@ -28,7 +28,7 @@ public class UsuarioServico implements IUsuarioServico {
 
 	@Override
 	public Usuario incluir(Usuario usuario) {
-		validacao.validarInclusaoUsuario(usuario);
+//		validacao.validarInclusaoUsuario(usuario);
 		return usuarioRepositorio.save(usuario);
 	}
 
@@ -40,7 +40,7 @@ public class UsuarioServico implements IUsuarioServico {
 
 	@Override
 	public void excluir(Long id) {
-		validacao.validarExclusaoUsuario(id);
+//		validacao.validarExclusaoUsuario(id);
 		usuarioRepositorio.deleteById(id);
 	}
 

@@ -34,7 +34,7 @@ public class UsuarioDTO {
 	@Transient
 	@JsonIgnore
 	public Usuario getUsuario() {
-		return Usuario.builder().id(this.id).nome(this.nome).email(this.email).altura(this.altura).sexo(this.sexo)
+		return Usuario.builder().nome(this.nome).email(this.email).altura(this.altura).sexo(this.sexo)
 				.pesoDesejado(this.pesoDesejado).build();
 	}
 
