@@ -57,8 +57,9 @@ public class UsuarioControle {
 	
 	//Não está funcionando
 	@PutMapping("/usuario/{id}")
-	public ResponseEntity<Usuario> alterarUsuario(@RequestBody Usuario usuario) {
-		return ResponseEntity.ok().body(servicoUsuario.alterarUsuario(usuario));
+	public ResponseEntity<UsuarioDTO> alterarUsuario(@RequestBody UsuarioDTO usuario) {
+		Usuario registro = this.servicoUsuario.alterarUsuario(usuario.getUsuario());
+		return ResponseEntity.ok().body(getUsuarioDTO(registro));
 	}
 
 	@DeleteMapping("/usuario/{id}")
@@ -67,7 +68,7 @@ public class UsuarioControle {
 		return ResponseEntity.ok().build();
 	}
 
-	//Não está funcionando
+	@PutMapping("/usuario/addpeso")
 	public ResponseEntity<?> addPesoParaUsuario(@RequestBody PesoParaUsuarioForm form) {
 		servicoUsuario.adicionarPesoAoUsuario(form.getEmail(), form.getPeso());
 		return ResponseEntity.ok().build();
@@ -92,5 +93,5 @@ public class UsuarioControle {
 @Data
 class PesoParaUsuarioForm {
 	private String email;
-	private RegistroPeso peso;
+	private int peso;
 }

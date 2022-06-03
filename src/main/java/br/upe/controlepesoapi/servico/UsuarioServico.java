@@ -46,12 +46,14 @@ public class UsuarioServico implements IUsuarioServico {
 		usuarioRepositorio.deleteById(id);
 	}
 
-	public void adicionarPesoAoUsuario(String email, RegistroPeso peso) {
+	public void adicionarPesoAoUsuario(String email, int peso) {
 		Optional<Usuario> usuario = usuarioRepositorio.findByEmailIgnoreCase(email);
-		peso.setUsuario(usuario.get());
-		peso.setData(LocalDateTime.now());
-		registroPesoRepositorio.save(peso);
-		usuario.get().getRegistrosPeso().add(peso);
+		RegistroPeso pesoNovo = new RegistroPeso();
+		pesoNovo.setUsuario(usuario.get());
+		pesoNovo.setData(LocalDateTime.now());
+		pesoNovo.setPeso(peso);
+		registroPesoRepositorio.save(pesoNovo);
+		usuario.get().getRegistrosPeso().add(pesoNovo);
 	}
 	
 	public int getPesoAtual(Usuario usuario) {
