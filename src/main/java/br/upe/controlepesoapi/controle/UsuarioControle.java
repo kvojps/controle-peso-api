@@ -48,7 +48,6 @@ public class UsuarioControle {
 		return resposta;
 	}
 
-	//Não está funcionando
 	@PostMapping("/usuario/salvar")
 	public ResponseEntity<UsuarioDTO> salvarUsuario(@RequestBody UsuarioDTO usuario) {
 		Usuario registro = this.servicoUsuario.incluir(usuario.getUsuario());
@@ -62,7 +61,6 @@ public class UsuarioControle {
 		return ResponseEntity.ok().body(servicoUsuario.alterar(usuario));
 	}
 
-	//Não está funcionando
 	@DeleteMapping("/usuario/{id}")
 	public ResponseEntity<?> excluir(@Valid @PathVariable(value = "id") Long id) {
 		servicoUsuario.excluir(id);
