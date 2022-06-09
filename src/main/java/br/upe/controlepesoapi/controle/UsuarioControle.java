@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.upe.controlepesoapi.modelo.dtos.RegistroPesoDTO;
 import br.upe.controlepesoapi.modelo.dtos.UsuarioDTO;
-import br.upe.controlepesoapi.modelo.entidades.RegistroPeso;
 import br.upe.controlepesoapi.modelo.entidades.Usuario;
 import br.upe.controlepesoapi.servico.UsuarioServico;
 import lombok.Data;
@@ -49,7 +48,7 @@ public class UsuarioControle {
 
 		return resposta;
 	}
-
+	
 	@PostMapping("/usuario/salvar")
 	public ResponseEntity<UsuarioDTO> incluirUsuario(@RequestBody UsuarioDTO usuario) {
 		Usuario registro = this.servicoUsuario.incluirUsuario(usuario.getUsuario());
