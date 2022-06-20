@@ -51,7 +51,7 @@ public class PesoServico {
     double altura = usuario.get().getAltura() / 100.0;
     double peso = registroPeso.get().getPeso();
     double imc = (peso / (altura * altura));
-    double imcAproximado = BigDecimal.valueOf(IMC).setScale(2, RoundingMode.HALF_UP).doubleValue();
+    double imcAproximado = BigDecimal.valueOf(imc).setScale(2, RoundingMode.HALF_UP).doubleValue();
 
     ImcEnum grau = ImcEnum.ABAIXO_DO_PESO;
 
