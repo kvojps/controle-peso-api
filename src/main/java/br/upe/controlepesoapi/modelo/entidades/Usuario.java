@@ -1,6 +1,5 @@
 package br.upe.controlepesoapi.modelo.entidades;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import org.joda.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,7 +37,7 @@ public class Usuario {
 
   private String sexo;
 
-  private LocalDateTime dataPesoDesejado;
+  private LocalDate dataPesoDesejado;
 
   private int pesoDesejado;
 

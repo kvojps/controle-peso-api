@@ -1,8 +1,9 @@
 package br.upe.controlepesoapi.servico;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.upe.controlepesoapi.excecao.ControlePesoException;
@@ -48,7 +49,7 @@ public class UsuarioServico implements IUsuarioServico {
     Optional<Usuario> usuario = usuarioRepositorio.findByEmailIgnoreCase(email);
     RegistroPeso pesoNovo = new RegistroPeso();
     pesoNovo.setUsuario(usuario.get());
-    pesoNovo.setData(LocalDateTime.now());
+    pesoNovo.setData(LocalDate.now());
     pesoNovo.setPeso(peso);
     registroPesoRepositorio.save(pesoNovo);
     usuario.get().getRegistrosPeso().add(pesoNovo);
@@ -68,6 +69,8 @@ public class UsuarioServico implements IUsuarioServico {
     if (usuario.getAltura() < 100) {
       throw new ControlePesoException("Por favor preencha corretamente o campo altura.");
     }
+
+    validarData(usuario.getRegistrosPeso().get(0).getData(), usuario.getDataPesoDesejado());
   }
 
   private void validarAlteracaoUsuario(Usuario usuario) {
@@ -95,6 +98,15 @@ public class UsuarioServico implements IUsuarioServico {
     if (!usuarioRepositorio.existsById(id)) {
       throw new NaoEncontradoException(
           "Ocorreu um erro ao excluir usuário: usuário não encontrado");
+    }
+  }
+
+  private void validarData(LocalDate dataInicio, LocalDate dataObjetivo) {
+    Days dias = Days.daysBetween(dataInicio, dataObjetivo);
+
+    if (dias.getDays() < 7) {
+      throw new ControlePesoException(
+          "A data entreo o peso inicial e o objetivo deve ser de no mínimo uma semana.");
     }
   }
 
