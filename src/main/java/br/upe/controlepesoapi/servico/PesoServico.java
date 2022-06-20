@@ -8,6 +8,7 @@ import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.upe.controlepesoapi.excecao.ControlePesoException;
 import br.upe.controlepesoapi.modelo.ImcEnum;
 import br.upe.controlepesoapi.modelo.entidades.RegistroPeso;
 import br.upe.controlepesoapi.modelo.entidades.Usuario;
@@ -30,7 +31,9 @@ public class PesoServico {
   public DashboardVO gerarDashboardVO(String email) {
 
     Optional<Usuario> usuario = usuarioRepositorio.findByEmailIgnoreCase(email);
+    validarUsuario(usuario);
     Optional<RegistroPeso> peso = pesoRepositorio.findFirstByUsuarioEmailOrderByDataDesc(email);
+    validarPeso(peso);
 
     return DashboardVO.builder().evolucao(gerarEvolucaoVO(usuario, peso))
         .imc(gerarImcVO(usuario, peso)).comparativo(gerarComparativoVO(usuario))
@@ -105,6 +108,18 @@ public class PesoServico {
     HistoricoVO historico = HistoricoVO.builder().pesos(pesos).build();
 
     return historico;
+  }
+
+  private void validarUsuario(Optional<Usuario> usuario) {
+    if (usuario.isEmpty()) {
+      throw new ControlePesoException("Usuário não cadastrado");
+    }
+  }
+
+  private void validarPeso(Optional<RegistroPeso> peso) {
+    if (peso.isEmpty()) {
+      throw new ControlePesoException("Registro de peso não encontrado");
+    }
   }
 
 }
