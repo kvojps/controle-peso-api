@@ -8,6 +8,7 @@ import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.upe.controlepesoapi.modelo.ImcEnum;
 import br.upe.controlepesoapi.modelo.entidades.RegistroPeso;
 import br.upe.controlepesoapi.modelo.entidades.Usuario;
 import br.upe.controlepesoapi.modelo.vos.ComparativoVO;
@@ -47,7 +48,22 @@ public class PesoServico {
   }
 
   private ImcVO gerarImcVO(Optional<Usuario> usuario, Optional<RegistroPeso> registroPeso) {
+    double altura = usuario.get().getAltura() / 100.0;
+    double peso = registroPeso.get().getPeso();
+    double imc = (peso / (altura * altura));
+    double imcAproximado = BigDecimal.valueOf(IMC).setScale(2, RoundingMode.HALF_UP).doubleValue();
 
+    ImcEnum grau = ImcEnum.ABAIXO_DO_PESO;
+
+    if (imc > 18.5 && imc < 24.9) {
+      grau = ImcEnum.PESO_IDEAL;
+    } else if (imc > 25) {
+      grau = ImcEnum.ACIMA_DO_PESO;
+    } else if (imc < 18.5) {
+      grau = ImcEnum.ABAIXO_DO_PESO;
+    }
+
+    return ImcVO.builder().imc(imcAproximado).classificacao(grau).build();
   }
 
   private ComparativoVO gerarComparativoVO(Optional<Usuario> usuario) {
