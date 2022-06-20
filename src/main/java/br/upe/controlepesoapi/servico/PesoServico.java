@@ -2,6 +2,7 @@ package br.upe.controlepesoapi.servico;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.Optional;
 import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,10 @@ public class PesoServico {
   }
 
   private HistoricoVO gerarHistoricoVO(String email) {
-    return null;
+    List<RegistroPeso> pesos = pesoRepositorio.findByUsuarioEmailOrderByDataAsc(email);
+
+    HistoricoVO historico = HistoricoVO.builder().pesos(pesos).build();
+
+    return historico;
   }
 }
