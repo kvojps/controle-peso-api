@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class MonitoramentoVO {
-  private ImcVO imc;
+public class DashboardVO {
   private EvolucaoVO evolucao;
-  private HistoricoVO historico;
+  private ImcVO imc;
   private ComparativoVO comparativo;
+  private HistoricoVO historico;
 }
