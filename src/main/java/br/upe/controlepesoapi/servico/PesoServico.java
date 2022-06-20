@@ -12,6 +12,7 @@ import br.upe.controlepesoapi.modelo.ImcEnum;
 import br.upe.controlepesoapi.modelo.entidades.RegistroPeso;
 import br.upe.controlepesoapi.modelo.entidades.Usuario;
 import br.upe.controlepesoapi.modelo.vos.ComparativoVO;
+import br.upe.controlepesoapi.modelo.vos.DashboardVO;
 import br.upe.controlepesoapi.modelo.vos.EvolucaoVO;
 import br.upe.controlepesoapi.modelo.vos.HistoricoVO;
 import br.upe.controlepesoapi.modelo.vos.ImcVO;
@@ -25,6 +26,17 @@ public class PesoServico {
 
   @Autowired
   private IUsuarioRepositorio usuarioRepositorio;
+
+  public DashboardVO gerarDashboardVO(String email) {
+
+    Optional<Usuario> usuario = usuarioRepositorio.findByEmailIgnoreCase(email);
+    Optional<RegistroPeso> peso = pesoRepositorio.findFirstByUsuarioEmailOrderByDataDesc(email);
+
+    return DashboardVO.builder().evolucao(gerarEvolucaoVO(usuario, peso))
+        .imc(gerarImcVO(usuario, peso)).comparativo(gerarComparativoVO(usuario))
+        .historico(gerarHistoricoVO(usuario)).build();
+
+  }
 
   private EvolucaoVO gerarEvolucaoVO(Optional<Usuario> usuario, Optional<RegistroPeso> peso) {
     double pesoDesejado = usuario.get().getPesoDesejado();
@@ -59,8 +71,6 @@ public class PesoServico {
       grau = ImcEnum.PESO_IDEAL;
     } else if (imc > 25) {
       grau = ImcEnum.ACIMA_DO_PESO;
-    } else if (imc < 18.5) {
-      grau = ImcEnum.ABAIXO_DO_PESO;
     }
 
     return ImcVO.builder().imc(imcAproximado).classificacao(grau).build();
@@ -88,13 +98,13 @@ public class PesoServico {
     return comparativo;
   }
 
-  private HistoricoVO gerarHistoricoVO(String email) {
-    List<RegistroPeso> pesos = pesoRepositorio.findByUsuarioEmailOrderByDataAsc(email);
+  private HistoricoVO gerarHistoricoVO(Optional<Usuario> usuario) {
+    List<RegistroPeso> pesos =
+        pesoRepositorio.findByUsuarioEmailOrderByDataAsc(usuario.get().getEmail());
 
     HistoricoVO historico = HistoricoVO.builder().pesos(pesos).build();
 
     return historico;
   }
-
 
 }
