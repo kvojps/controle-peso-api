@@ -36,9 +36,9 @@ public class PesoServico {
     Optional<RegistroPeso> peso = pesoRepositorio.findFirstByUsuarioEmailOrderByDataDesc(email);
     validarPeso(peso);
 
-    return DashboardVO.builder().evolucao(gerarEvolucaoVO(usuario, peso))
-        .imc(gerarImcVO(usuario, peso)).comparativo(gerarComparativoVO(usuario))
-        .historico(gerarHistoricoVO(usuario)).build();
+    return DashboardVO.builder().monitoramento(gerarMonitoramentoVO(usuario, peso))
+        .evolucao(gerarEvolucaoVO(usuario, peso)).imc(gerarImcVO(usuario, peso))
+        .comparativo(gerarComparativoVO(usuario)).historico(gerarHistoricoVO(usuario)).build();
 
   }
 

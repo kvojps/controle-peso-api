@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class DashboardVO {
+  private MonitoramentoVO monitoramento;
   private EvolucaoVO evolucao;
   private ImcVO imc;
   private ComparativoVO comparativo;
