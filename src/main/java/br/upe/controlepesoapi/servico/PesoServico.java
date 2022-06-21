@@ -17,6 +17,7 @@ import br.upe.controlepesoapi.modelo.vos.DashboardVO;
 import br.upe.controlepesoapi.modelo.vos.EvolucaoVO;
 import br.upe.controlepesoapi.modelo.vos.HistoricoVO;
 import br.upe.controlepesoapi.modelo.vos.ImcVO;
+import br.upe.controlepesoapi.modelo.vos.MonitoramentoVO;
 import br.upe.controlepesoapi.repositorio.IRegistroPesoRepositorio;
 import br.upe.controlepesoapi.repositorio.IUsuarioRepositorio;
 
@@ -39,6 +40,23 @@ public class PesoServico {
         .imc(gerarImcVO(usuario, peso)).comparativo(gerarComparativoVO(usuario))
         .historico(gerarHistoricoVO(usuario)).build();
 
+  }
+
+  private MonitoramentoVO gerarMonitoramentoVO(Optional<Usuario> usuario,
+      Optional<RegistroPeso> peso) {
+    double pesoInicial = usuario.get().getRegistrosPeso().get(0).getPeso();
+    LocalDate dataPesoInicial = usuario.get().getRegistrosPeso().get(0).getData();
+
+    double pesoAtual = peso.get().getPeso();
+    int ultimoIndex = usuario.get().getRegistrosPeso().size() - 1;
+    LocalDate dataPesoAtual = usuario.get().getRegistrosPeso().get(ultimoIndex).getData();
+
+    double pesoDesejado = usuario.get().getPesoDesejado();
+    LocalDate dataPesoDesejado = usuario.get().getDataPesoDesejado();
+
+    return MonitoramentoVO.builder().pesoInicial(pesoInicial).dataPesoInicial(dataPesoInicial)
+        .pesoAtual(pesoAtual).dataPesoAtual(dataPesoAtual).pesoObjetivo(pesoDesejado)
+        .dataPesoObjetivo(dataPesoDesejado).build();
   }
 
   private EvolucaoVO gerarEvolucaoVO(Optional<Usuario> usuario, Optional<RegistroPeso> peso) {

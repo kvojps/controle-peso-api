@@ -1,16 +1,18 @@
 package br.upe.controlepesoapi.modelo.vos;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class MonitoramentoVO {
   private double pesoInicial;
-  private DateTime dataPesoInicial;
+  private LocalDate dataPesoInicial;
 
   private double pesoAtual;
-  private DateTime dataPesoAtual;
+  private LocalDate dataPesoAtual;
 
   private double pesoObjetivo;
-  private DateTime dataPesoObjetivo;
+  private LocalDate dataPesoObjetivo;
 }
