@@ -22,7 +22,7 @@ import br.upe.controlepesoapi.repositorio.IRegistroPesoRepositorio;
 import br.upe.controlepesoapi.repositorio.IUsuarioRepositorio;
 
 @Service
-public class PesoServico {
+public class PesoServico implements IPesoServico {
   @Autowired
   private IRegistroPesoRepositorio pesoRepositorio;
 
